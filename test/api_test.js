@@ -1,7 +1,7 @@
 "use strict";
 
 var async = require('async');
-var tokens = require('../lib')();
+var tokens = require('../lib').api();
 
 var myToken, forcedToken;
 var myAttrs = {
