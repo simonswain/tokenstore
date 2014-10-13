@@ -8,12 +8,16 @@ var myAttrs = {
   foo: 'bar'
 };
 
+var myOwner = 'testowner';
+
 exports.api = {
+
   'reset': function(test) {
     tokens.reset(function() {
       test.done();
     });
   },
+
   'get-not-found': function(test) {
     test.expect(2);
     tokens.get(
@@ -24,9 +28,11 @@ exports.api = {
         test.done();
       });
   },
+
   'add': function(test) {
     test.expect(2);
     tokens.add(
+      myOwner,
       myAttrs,
       function(err, res) {
         myToken = res;
@@ -35,6 +41,7 @@ exports.api = {
         test.done();
       });
   },
+
   'get': function(test) {
     test.expect(2);
     tokens.get(
@@ -45,6 +52,18 @@ exports.api = {
         test.done();
       });
   },
+
+  'get-owner': function(test) {
+    test.expect(2);
+    tokens.owner(
+      myToken,
+      function(err, res) {
+        test.equal(err, null);
+        test.deepEqual(res, myOwner);
+        test.done();
+      });
+  },
+
   'set': function(test) {
     test.expect(1);
     myAttrs.baz = 'quxx';
@@ -56,6 +75,7 @@ exports.api = {
         test.done();
       });
   },
+
   'set-get': function(test) {
     test.expect(2);
     tokens.get(
@@ -66,10 +86,12 @@ exports.api = {
         test.done();
       });
   },
-  'add-id': function(test) {
+
+  'add-forced-id': function(test) {
     test.expect(2);
     forcedToken = 'forced678901234567890123';
     tokens.add(
+      myOwner,
       forcedToken,
       myAttrs,
       function(err, res) {
@@ -78,7 +100,8 @@ exports.api = {
         test.done();
       });
   },
-  'get-id': function(test) {
+
+  'get-forced-id': function(test) {
     test.expect(2);
     tokens.get(
       forcedToken,
@@ -88,12 +111,36 @@ exports.api = {
         test.done();
       });
   },
+
+  'get-owner-forced-': function(test) {
+    test.expect(2);
+    tokens.owner(
+      forcedToken,
+      function(err, res) {
+        test.equal(err, null);
+        test.deepEqual(res, myOwner);
+        test.done();
+      });
+  },
+
+  'owner-list': function(test) {
+    tokens.list(
+      myOwner,
+      function(err, res) {
+        test.equal(err, null);
+        test.equal(typeof res, 'object');
+        test.equals(res.length, 2);
+        test.done();
+      });
+  },
+
   // clear all tokens
   'reset-again': function(test) {
     tokens.reset(function() {
       test.done();
     });
   },
+
   // should be no token
   'reset-get': function(test) {
     test.expect(2);
@@ -105,6 +152,7 @@ exports.api = {
         test.done();
       });
   },
+
   'quit': function(test) {
     tokens.quit(function() {
       test.done();
