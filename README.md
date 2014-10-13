@@ -4,6 +4,25 @@ Version: 0.0.2
 
 [![Build Status](https://travis-ci.org/simonswain/tokenstore.png)](https://travis-ci.org/simonswain/tokenstore)
 
+## Install
+
+```bash
+npm install tokenstore
+```
+
+## Usage
+
+```
+var Tokenstore = require('tokenstore');
+var tokens = Tokenstore.api({
+    prefix: 'my_token_prefix',
+    redis: {
+      host: '127.0.0.1',
+      port: 6379
+    }
+  });
+```
+
 ## API
 
 All methods take a callback that is called with err and result. The
