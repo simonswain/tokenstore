@@ -10,6 +10,21 @@ var myAttrs = {
 
 var myOwner = 'testowner';
 
+var token = {
+  owner_id: 'testowner',
+  attrs: {
+    foo: 'bar'
+  }
+};
+
+var forcedToken = {
+  key: 'forced678901234567890123',
+  owner_id: 'testowner',
+  attrs: {
+    ping: 'pong'
+  }
+};
+
 exports.api = {
 
   'reset': function(test) {
@@ -30,45 +45,54 @@ exports.api = {
   },
 
   'add': function(test) {
-    test.expect(2);
+    test.expect(4);
     tokens.add(
-      myOwner,
-      myAttrs,
+      token,
       function(err, res) {
         myToken = res;
         test.equal(err, null);
-        test.equal(res.length, 24);
+        test.equal(typeof res, 'object');
+        test.equal(res.key.length, 24);
+        test.ok(res.hasOwnProperty('id'));
         test.done();
       });
   },
 
-  'get': function(test) {
-    test.expect(2);
+  'get-by-id': function(test) {
+    test.expect(6);
     tokens.get(
-      myToken,
+      myToken.id,
       function(err, res) {
         test.equal(err, null);
-        test.deepEqual(res, myAttrs);
+        test.equal(typeof res, 'object');
+        test.deepEqual(res.id, myToken.id);
+        test.deepEqual(res.key, myToken.key);
+        test.deepEqual(res.owner_id, token.owner_id);
+        test.deepEqual(res.attrs, myAttrs);
         test.done();
       });
   },
 
-  'get-owner': function(test) {
-    test.expect(2);
-    tokens.owner(
-      myToken,
+  'get-by-key': function(test) {
+    test.expect(6);
+    tokens.getKey(
+      token.key,
       function(err, res) {
         test.equal(err, null);
-        test.deepEqual(res, myOwner);
+        test.equal(typeof res, 'object');
+        test.deepEqual(res.id, myToken.id);
+        test.deepEqual(res.key, myToken.key);
+        test.deepEqual(res.owner_id, token.owner_id);
+        test.deepEqual(res.attrs, myAttrs);
         test.done();
       });
   },
 
-  'set': function(test) {
+  'set-attrs': function(test) {
     test.expect(1);
     myAttrs.baz = 'quxx';
-    tokens.set(
-      myToken,
+    tokens.setAttrs(
+      myToken.id,
       myAttrs,
       function(err, res) {
         test.equal(err, null);
@@ -76,49 +100,28 @@ exports.api = {
       });
   },
 
-  'set-get': function(test) {
+  'get-changed-attrs': function(test) {
     test.expect(2);
     tokens.get(
-      myToken,
+      myToken.id,
       function(err, res) {
         test.equal(err, null);
-        test.deepEqual(res, myAttrs);
+        test.deepEqual(res.attrs, myAttrs);
         test.done();
       });
   },
 
   'add-forced-id': function(test) {
-    test.expect(2);
-    forcedToken = 'forced678901234567890123';
+    test.expect(6);
     tokens.add(
-      myOwner,
-      forcedToken,
-      myAttrs,
-      function(err, res) {
-        test.equal(err, null);
-        test.equal(res, forcedToken);
-        test.done();
-      });
-  },
-
-  'get-forced-id': function(test) {
-    test.expect(2);
-    tokens.get(
       forcedToken,
       function(err, res) {
         test.equal(err, null);
-        test.deepEqual(res, myAttrs);
-        test.done();
-      });
-  },
-
-  'get-owner-forced-': function(test) {
-    test.expect(2);
-    tokens.owner(
-      forcedToken,
-      function(err, res) {
-        test.equal(err, null);
-        test.deepEqual(res, myOwner);
+        test.equal(typeof res, 'object');
+        test.deepEqual(res.id, forcedToken.id);
+        test.deepEqual(res.key, forcedToken.key); // should be same
+        test.deepEqual(res.owner_id, forcedToken.owner_id);
+        test.deepEqual(res.attrs, forcedToken.attrs);
         test.done();
       });
   },
@@ -127,6 +130,7 @@ exports.api = {
     tokens.list(
       myOwner,
       function(err, res) {
+        console.log(res);
         test.equal(err, null);
         test.equal(typeof res, 'object');
         test.equals(res.length, 2);
@@ -145,7 +149,7 @@ exports.api = {
   'reset-get': function(test) {
     test.expect(2);
     tokens.get(
-      myToken,
+      myToken.id,
       function(err, res) {
         test.equal(err, null);
         test.equal(res, false);
