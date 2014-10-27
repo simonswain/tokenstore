@@ -87,6 +87,10 @@ Passes `done` the string literal of that token's owner.
 Passes `done` an array of tokens owned by that user. Each token is
 returned as `{id: <token_id>, attrs: <attrs object>}`.
 
+## Release History
+
+* 27/10/2014 0.0.2
+
 ## License
 
 Copyright (c) 2014 Simon Swain
