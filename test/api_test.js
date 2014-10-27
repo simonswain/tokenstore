@@ -130,7 +130,6 @@ exports.api = {
     tokens.list(
       myOwner,
       function(err, res) {
-        console.log(res);
         test.equal(err, null);
         test.equal(typeof res, 'object');
         test.equals(res.length, 2);
