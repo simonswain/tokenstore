@@ -1,7 +1,7 @@
 "use strict";
 
 var async = require('async');
-var tokens = require('../lib').api();
+var tokens;
 
 var myToken, forcedToken;
 var myAttrs = {
@@ -25,7 +25,14 @@ var forcedToken = {
   }
 };
 
+var hash;
+
 exports.api = {
+
+  'boot': function(test) {
+    tokens = require('../lib').api();
+    test.done();
+  },
 
   'reset': function(test) {
     tokens.reset(function() {
@@ -133,6 +140,51 @@ exports.api = {
         test.equal(err, null);
         test.equal(typeof res, 'object');
         test.equals(res.length, 2);
+        test.done();
+      });
+  },
+
+  'make-hash': function(test) {
+    test.expect(3);
+    tokens.makeHash(
+      'foo',
+      function(err, res) {
+        hash = res;
+        test.equal(err, null);
+        test.equal(typeof res, 'string');
+        test.equal(res.length, 16);
+        test.done();
+      });
+  },
+
+  'get-hash': function(test) {
+    test.expect(2);
+    tokens.getHash(
+      hash,
+      function(err, res) {
+        test.equal(err, null);
+        test.equals(res, 'foo');
+        test.done();
+      });
+  },
+
+  'del-hash': function(test) {
+    test.expect(1);
+    tokens.delHash(
+      hash,
+      function(err, res) {
+        test.equal(err, null);
+        test.done();
+      });
+  },
+
+  'get-deleted-hash': function(test) {
+    test.expect(2);
+    tokens.getHash(
+      hash,
+      function(err, res) {
+        test.equal(err, null);
+        test.equals(res, false);
         test.done();
       });
   },
