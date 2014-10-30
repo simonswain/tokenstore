@@ -36,6 +36,9 @@ signatures below use `done` to identify the callback.
 * [`del`](#del)
 * [`owner`](#owner)
 * [`list`](#list)
+* [`makeHash`](#makeHash)
+* [`getHash`](#gethash)
+* [`delHash`](#delHash)
 
 
 <a name="reset" />
@@ -86,6 +89,24 @@ Passes `done` the string literal of that token's owner.
 
 Passes `done` an array of tokens owned by that user. Each token is
 returned as `{id: <token_id>, attrs: <attrs object>}`.
+
+<a name="makeHash" />
+### makeHash(val, ttl, done)
+
+`done(err, hash)`
+
+hash expires after `ttl` seconds 
+
+
+<a name="getHash" />
+### delHash(hash, done)
+
+`done(err, val)`
+
+<a name="delHash" />
+### delHash(hash, done)
+
+
 
 ## Release History
 
