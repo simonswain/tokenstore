@@ -1,7 +1,7 @@
 {
   "name": "tokenstore",
   "description": "Token store for web sessions",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "homepage": "https://github.com/simonswain/tokenstore",
   "author": {
     "name": "Simon Swain",

@@ -1,6 +1,6 @@
 # Tokenstore
 
-Version: 0.0.2
+Version: 0.0.3
 
 [![Build Status](https://travis-ci.org/simonswain/tokenstore.png)](https://travis-ci.org/simonswain/tokenstore)
 
@@ -107,10 +107,10 @@ hash expires after `ttl` seconds
 ### delHash(hash, done)
 
 
-
 ## Release History
 
 * 27/10/2014 0.0.2
+* 04/11/2014 0.0.3
 
 ## License
 
