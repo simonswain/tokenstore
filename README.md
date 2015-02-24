@@ -52,7 +52,7 @@ When you make the token, you need to supply an `owner_id` (this will map
 to user_id or something similar in your database -- a unique ID for
 the entity the token is being issued for.
 
-`attrs` is arbitrary JSON. Probably best your try and keep it short.
+`attrs` is arbitrary JSON. Probably best you keep it short.
 
 The part of your app that uses Tokenstore should be using attrs as a
 starting point for a database query to get full details on the entity.
