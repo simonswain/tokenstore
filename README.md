@@ -2,7 +2,7 @@
 
 Session tokens for Node.js
 
-Version: 0.0.3
+Version: 0.0.4
 
 [![Build Status](https://travis-ci.org/simonswain/tokenstore.png)](https://travis-ci.org/simonswain/tokenstore)
 
@@ -227,6 +227,7 @@ grunt
 
 * 27/10/2014 0.0.2
 * 04/11/2014 0.0.3
+* 26/02/2015 0.0.4 Removed Hiredis
 
 ## License
 
